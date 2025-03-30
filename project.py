@@ -69,7 +69,7 @@ def get_chain(retriever):
 # 3단계
 def get_hospital_info(chain, geo_name): # 2
     # 지역 정보 입력 받은 후 체인으로 넘어감
-    prompt =  """
+    prompt =  f"""
         사용자가 대답한 구({geo_name})에 있는 병원정보를 알려주세요.
         ------------
         예))
@@ -92,7 +92,7 @@ def get_hospital_info(chain, geo_name): # 2
 # 1단계
 def get_emergency_label(response_text):
  
-    prompt =  """
+    prompt =  f"""
     다음 응답을 보고 응급 여부를 라벨링해주세요:
     - 1: 응급 상황
     - 2: 애매함
@@ -109,7 +109,7 @@ def get_emergency_label(response_text):
 # 2단계
 def get_symptoms_info(chain, label, detail_symptos):
 
-    prompt = """
+    prompt = f"""
         <goal>
             구체적인 응급처리 방법을 알려주세요
         </goal>
@@ -158,6 +158,7 @@ hospital_chain = get_chain(hospital_retriever)
 
 
 st.header("스마트응급가이드 11911")
+st.text("현재 중경증 및 경증일 경우에는 구체적인 증상을 묻고 증상을 다시 입력받고 난 후에는 증상에 대한 설명을 하고 있지만 무조건 병원에 대한 정보를 드리고 있습니다.")
         
 if "messages" not in st.session_state:
     st.session_state.state = 1
