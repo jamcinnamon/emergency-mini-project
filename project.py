@@ -36,7 +36,7 @@ symptoms_retriever = symptoms_vectorstore.as_retriever(search_kwargs={"k": 2}) #
 
 # 세 번째 FAISS 불러오기
 hospital_vectorstore = FAISS.load_local("hospital_faiss_file", embedding_model, allow_dangerous_deserialization=True)
-hospital_retriever = hospital_vectorstore.as_retriever(search_kwargs={"k": 2}) # label: #1
+hospital_retriever = hospital_vectorstore.as_retriever(search_kwargs={"k": 200}) # label: #1
 
 #  prompt QA 한국어로 존중체이며 친밀한 모드로 대답하고 이모지와 함께 답변
 qa_prompt =  """
@@ -200,8 +200,8 @@ if prompt_message := st.chat_input("얼마나 걱정되는 상황인가요? 증�
 
                 st.session_state.messages.append({"role": "assistant", "content": a["text"]})
                 st.markdown(a["text"])
-                st.session_state.messages.append({"role": "assistant", "content": "주소?"})
-                st.markdown('주소?')
+                st.session_state.messages.append({"role": "assistant", "content": "현재 계신 구가 어떻게 되나요?"})
+                st.markdown('현재 계신 구가 어떻게 되나요?')
 
         elif st.session_state.state == 3:
             with st.chat_message(""):
