@@ -173,7 +173,7 @@ if prompt_message := st.chat_input("얼마나 걱정되는 상황인가요? 증�
     with st.spinner("Thinking..."):
         
         if st.session_state.state == 1:
-            with st.chat_message("1"):
+            with st.chat_message(""):
                 answer_promt = f"(응급에 가까우면 1 중경증이면 2 경증에 가까우면 3 으로 마지막에 태그로 붙이면서 라벨링)  {prompt_message}"
                 user_symptoms = retriever_chain.invoke({"query": f"{answer_promt}"})['result']
                 label = get_emergency_label(user_symptoms)
@@ -184,11 +184,11 @@ if prompt_message := st.chat_input("얼마나 걱정되는 상황인가요? 증�
                     st.markdown('구체적인 증상이 무엇인가요?')
                 else:
                     st.session_state.state = 4
-                    st.session_state.messages.append({"role": "assistant", "content": "주소"})
-                    st.markdown('주소')
+                    st.session_state.messages.append({"role": "assistant", "content": "현재 계신 구가 어떻게 되나요?"})
+                    st.markdown('현재 계신 구가 어떻게 되나요?')
 
         elif st.session_state.state == 2:
-            with st.chat_message("2"):
+            with st.chat_message(""):
                 st.session_state.state = 3
                 detail_symptos_info = retriever_chain.invoke({"query": f"{prompt_message}"})
 
@@ -204,7 +204,7 @@ if prompt_message := st.chat_input("얼마나 걱정되는 상황인가요? 증�
                 st.markdown('주소?')
 
         elif st.session_state.state == 3:
-            with st.chat_message("3"):
+            with st.chat_message(""):
                 rst = get_hospital_info(hospital_chain, prompt_message)
 
                 a = promptChain.invoke({
@@ -216,13 +216,10 @@ if prompt_message := st.chat_input("얼마나 걱정되는 상황인가요? 증�
                 st.markdown(a["text"])
 
         else:
-            with st.chat_message("4"):
+            with st.chat_message(""):
                 rst = get_hospital_info(hospital_chain, prompt_message)
 
                 st.session_state.state = 1
                 st.session_state.messages.append({"role": "assistant", "content": rst})
                 st.markdown(rst)
-            # res = llmchain.invoke(prompt_message)
-            # st.session_state.messages.append({"role": "assistant", "content": res})
-            # st.write(res)
 
